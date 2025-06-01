@@ -46,6 +46,15 @@ const CategoryModel = {
 
         return rows[0]
 
+    },
+    findByName: async(companyId, name) => {
+
+        let query = "SELECT * FROM categorys WHERE name LIKE ? AND company_id = ?"
+
+        const [rows] = await db.execute(query, [`%${name}%`, companyId])
+
+        return rows[0]
+
     }
 
 }
