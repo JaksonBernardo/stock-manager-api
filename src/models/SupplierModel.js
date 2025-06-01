@@ -58,3 +58,5 @@ const SupplierModel = {
     }
 
 }
+
+export default SupplierModel;
