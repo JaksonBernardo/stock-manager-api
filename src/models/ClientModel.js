@@ -45,7 +45,7 @@ const ClientModel = {
         const [rows] = await db.execute(query, [companyId, supplierId])
 
         return rows[0]
-
+ 
     },
     findByName: async (companyId, name) => {
 
