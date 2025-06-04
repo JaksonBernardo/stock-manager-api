@@ -8,7 +8,7 @@ const CompanyModel = {
 
         const [result] = await db.execute(query, [name, cnpj, phone, email, cep, address, district, city, number, state])
 
-        return
+        return result.insertId
 
     },
     update: async (idCompany, name, cnpj, phone, email, cep, address, district, city, number, state) => {
@@ -17,7 +17,7 @@ const CompanyModel = {
 
         const [result] = await db.execute(query, [name, cnpj, phone, email, cep, address, district, city, number, state, idCompany])
 
-        return
+        return result.affectedRows
 
     },
     delete: async (idCompany) => {
@@ -26,7 +26,7 @@ const CompanyModel = {
 
         const [result] = await db.execute(query, [idCompany])
 
-        return
+        return result.affectedRows
 
     },
     findAll: async () => {
@@ -35,7 +35,7 @@ const CompanyModel = {
 
         const [rows] = await db.execute(query)
 
-        return rows[0]
+        return rows
 
     }
 }

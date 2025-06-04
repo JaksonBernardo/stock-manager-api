@@ -8,7 +8,7 @@ const ProductModel = {
 
         const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, companyId])
 
-        return
+        return result.insertId
 
     },
     update: async (productId, name, description, price, stock, supplier, validity, category, companyId) => {
@@ -17,7 +17,7 @@ const ProductModel = {
 
         const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, productId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     delete: async (productId, companyId) => {
@@ -26,7 +26,7 @@ const ProductModel = {
 
         const [result] = await db.execute(query, [productId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     findAll: async (companyId) => {
@@ -35,7 +35,7 @@ const ProductModel = {
 
         const [rows] = await db.execute(query, [companyId])
 
-        return rows[0]
+        return rows
 
     },
     findById: async (companyId, productId) => {
@@ -47,7 +47,6 @@ const ProductModel = {
         return rows[0]
 
     }
-
 
 }
 

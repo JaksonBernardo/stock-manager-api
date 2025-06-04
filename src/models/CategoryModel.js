@@ -8,7 +8,7 @@ const CategoryModel = {
 
         const [result] = await db.execute(query, [name, companyId])
 
-        return
+        return result.insertId
 
     },
     update: async (idCategory, name, companyId) => {
@@ -17,7 +17,7 @@ const CategoryModel = {
 
         const [result] = await db.execute(query, [name, idCategory, companyId])
 
-        return
+        return result.affectedRows
 
     },
     delete: async (idCategory, companyId) => {
@@ -26,7 +26,7 @@ const CategoryModel = {
 
         const [result] = await db.execute(query, [idCategory, companyId])
 
-        return
+        return result.affectedRows
 
     },
     findAll: async (companyId) => {
@@ -35,7 +35,7 @@ const CategoryModel = {
 
         const [rows] = await db.execute(query, [companyId])
 
-        return rows[0]
+        return rows
 
     },
     findById: async (idCategory, companyId) => {
@@ -53,7 +53,7 @@ const CategoryModel = {
 
         const [rows] = await db.execute(query, [`%${name}%`, companyId])
 
-        return rows[0]
+        return rows
 
     }
 

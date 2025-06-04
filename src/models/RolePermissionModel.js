@@ -8,7 +8,7 @@ const RolePermissionModel = {
 
         const [rows] = await db.execute(query, [roleId])
 
-        return rows[0]
+        return rows
 
     },
     create: async (roleId, permissionId) => {
@@ -17,7 +17,7 @@ const RolePermissionModel = {
 
         const [result] = await db.execute(query, [roleId, permissionId])
 
-        return
+        return result.insertId
 
     },
     delete: async (roleId, permissionId) => {
@@ -26,7 +26,7 @@ const RolePermissionModel = {
 
         const [result] = await db.execute(query, [roleId, permissionId])
 
-        return
+        return result.affectedRows
 
     }
 

@@ -8,7 +8,7 @@ const RoleModel = {
 
         const [result] = await db.execute(query, [name, companyId])
 
-        return
+        return result.insertId
 
     },
     update: async (roleId, name, companyId) => {
@@ -17,7 +17,7 @@ const RoleModel = {
 
         const [result] = await db.execute(query, [name, roleId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     delete: async (roleId, companyId) => {
@@ -26,7 +26,7 @@ const RoleModel = {
 
         const [result] = await db.execute(query, [roleId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     findAll: async (companyId) => {
@@ -35,7 +35,7 @@ const RoleModel = {
 
         const [rows] = await db.execute(query, [companyId])
 
-        return rows[0]
+        return rows
 
     },
     findById: async (roleId, companyId) => {

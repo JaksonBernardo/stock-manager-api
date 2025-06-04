@@ -8,7 +8,7 @@ const UserModel = {
 
         const [result] = await db.execute(query, [name, email, password, department, role, companyId])
 
-        return
+        return result.insertId
 
     },
     update: async (userId, name, email, password, department, role, companyId) => {
@@ -17,7 +17,7 @@ const UserModel = {
 
         const [result] = await db.execute(query, [name, email, password, department, role, userId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     delete: async (userId, companyId) => {
@@ -26,7 +26,7 @@ const UserModel = {
 
         const [result] = await db.execute(query, [userId, companyId])
 
-        return
+        return result.affectedRows
 
     },
     findById: async (userId, companyId) => {
@@ -44,7 +44,7 @@ const UserModel = {
 
         const [rows] = await db.execute(query, [companyId])
 
-        return rows[0]
+        return rows
 
     }
 
