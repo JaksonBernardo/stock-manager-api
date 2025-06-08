@@ -1,4 +1,4 @@
-import db from '../db/Connection'
+import db from '../db/Connection.js'
 
 const CategoryModel = {
 
