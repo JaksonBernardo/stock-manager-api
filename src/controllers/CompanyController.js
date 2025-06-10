@@ -77,11 +77,26 @@ const CompanyController = {
 
             await CompanyModel.delete(companyId)
 
-            res.status(200).json({ message: "Empresa deletada com sucesso"})
+            res.status(200).json({ message: "Empresa deletada com sucesso" })
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao deletar empresa"})
+            res.status(500).json({ message: "Erro ao deletar empresa" })
+            
+        }
+
+    },
+    getAllCompanys: async (req, res) => {
+
+        try {
+            
+            const companys = await CompanyModel.findAll()
+
+            res.status(200).json(companys)
+
+        } catch (error) {
+
+            res.status(500).json({ message: "Erro ao consultar empresas" })
             
         }
 
