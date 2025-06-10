@@ -37,6 +37,15 @@ const CompanyModel = {
 
         return rows
 
+    },
+    findById: async (companyId) => {
+
+        let query = "SELECT * FROM companys WHERE id = ?"
+
+        const [rows] = await db.execute(query, [companyId])
+
+        return rows
+
     }
 }
 
