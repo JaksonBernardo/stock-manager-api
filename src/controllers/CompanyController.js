@@ -68,6 +68,23 @@ const CompanyController = {
 
         }
 
+    },
+    deleteCompany: async (req, res) => {
+
+        try {
+            
+            const companyId = req.params.id
+
+            await CompanyModel.delete(companyId)
+
+            res.status(200).json({ message: "Empresa deletada com sucesso"})
+
+        } catch (error) {
+
+            res.status(500).json({ message: "Erro ao deletar empresa"})
+            
+        }
+
     }
 
 }
