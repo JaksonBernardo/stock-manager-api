@@ -1,10 +1,10 @@
 import express from 'express'
-import UserRoute from './routes/UserRoutes.js'
+import CompanyRoutes from './routes/CompanyRoutes.js'
 
 const app = express()
 
 app.use(express.json())
 
-app.use('/companys', UserRoute)
+app.use('/companys', CompanyRoutes)
 
 export default app;
