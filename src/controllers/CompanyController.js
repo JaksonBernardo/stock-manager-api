@@ -1,5 +1,4 @@
 import CompanyModel from '../models/CompanyModel.js'
-import jwt from 'jsonwebtoken'
 
 const CompanyController = {
 
