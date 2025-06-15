@@ -2,59 +2,12 @@ import CompanyModel from '../models/CompanyModel.js'
 import AdminModel from '../models/AdminModel.js'
 
 import bcrypt from 'bcryptjs'
-import crypto from 'crypto'
 import { format } from 'date-fns'
+
+import generateRandomPassword from '../utils/generateRandomPassword.js'
 
 const CompanyController = {
 
-    generateRandomPassword: (length = 12, options = {}) => {
-       
-        const defaultOptions = {
-            uppercase: true,
-            lowercase: true,
-            numbers: true,
-            symbols: true,
-            excludeChars: ''
-        };
-
-        const mergedOptions = { ...defaultOptions, ...options };
-        
-        const charSets = {
-            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-            lowercase: 'abcdefghijklmnopqrstuvwxyz',
-            numbers: '0123456789',
-            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
-        };
-
-        let allowedChars = '';
-        for (const [key, value] of Object.entries(mergedOptions)) {
-            if (value && charSets[key]) {
-            allowedChars += charSets[key];
-            }
-        }
-
-        if (mergedOptions.excludeChars) {
-            const excludeRegex = new RegExp(`[${mergedOptions.excludeChars}]`, 'g');
-            allowedChars = allowedChars.replace(excludeRegex, '');
-        }
-
-        if (!allowedChars) {
-            throw new Error('Pelo menos um conjunto de caracteres deve ser habilitado');
-        }
-
-        let password = '';
-        const randomValues = new Uint8Array(length);
-        
-        crypto.randomFillSync(randomValues);
-
-        for (let i = 0; i < length; i++) {
-            const randomIndex = randomValues[i] % allowedChars.length;
-            password += allowedChars[randomIndex];
-        }
-
-        return password;
-
-    },
     createCompany: async (req, res) => {
 
         try {
@@ -77,12 +30,12 @@ const CompanyController = {
             if (!name || !cnpj || !email || !adminName || !adminEmail) {
 
                 return res.status(400).json({ message: "Campos obrigatórios faltando" })
-                
+
             }
 
             const companyId = await CompanyModel.create(name, cnpj, phone, email, cep, address, district, city, number, state)
 
-            const randomPassword = CompanyController.generateRandomPassword()
+            const randomPassword = generateRandomPassword()
 
             const today = format(new Date(), 'yyyy-MM-dd')
 
