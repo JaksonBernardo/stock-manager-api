@@ -13,18 +13,9 @@ const CompanyController = {
         try {
 
             const {
-                name,
-                cnpj,
-                phone,
-                email,
-                cep,
-                address,
-                district,
-                city,
-                number,
-                state,
-                adminName,
-                adminEmail
+                name, cnpj, phone, email,
+                cep, address, district,city,
+                number, state, adminName, adminEmail
             } = req.body
 
             if (!name || !cnpj || !email || !adminName || !adminEmail) {
@@ -55,6 +46,7 @@ const CompanyController = {
 
         } catch (error) {
 
+            console.error(error)
             res.status(500).json({ message: `Erro ao cadastrar empresa: ${error}` });
 
         }
@@ -126,7 +118,7 @@ const CompanyController = {
         }
 
     },
-    getCompanyId: async (req, res) => {
+    getCompanyById: async (req, res) => {
 
         try {
             
