@@ -76,8 +76,33 @@ const RoleController = {
             
         }
 
-    }
+    },
+    findUserByRole: async (req, res) => {
 
+        // ESTE CONTROLLER VAI COLETAR OS FUNCIONÁRIOS QUE ESTÃO RELACIONADOS A UMA FUNÇÃO
+
+    },
+    deleteRole: async (req, res) => {
+
+        try {
+            
+            const params = req.params
+
+            const roleId = params.id
+            const companyId = params.companyId
+
+            await RoleModel.delete(roleId, companyId)
+
+            res.status(200).json({ message: "Função deletada com sucesso" })
+
+        } catch (error) {
+            
+            console.error(error)
+            res.status(500).json({ message: "Erro ao deletar função" })
+
+        }
+
+    }
 
 }
 

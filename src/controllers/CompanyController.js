@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 import { format } from 'date-fns'
 
 import generateRandomPassword from '../utils/generateRandomPassword.js'
+import sendEmail from '../utils/sendEmail.js'
 
 const CompanyController = {
 
@@ -18,7 +19,9 @@ const CompanyController = {
                 number, state, adminName, adminEmail
             } = req.body
 
-            if (!name || !cnpj || !email || !adminName || !adminEmail) {
+            const requiredFields = [name, cnpj, email, adminName, adminEmail]
+
+            if (requiredFields.some(field => !field)) {
 
                 return res.status(400).json({ message: "Campos obrigatórios faltando" })
 
@@ -38,6 +41,14 @@ const CompanyController = {
                 hour12: false
             }).format()
 
+            const emailSent = await sendEmail(adminEmail, randomPassword)
+
+            if (!emailSent) {
+
+                return res.status(500).json({ message: "Erro ao enviar e-mail para o administrador" })
+
+            }
+
             const randomPasswordHash = await bcrypt.hash(randomPassword, 10)
 
             await AdminModel.create(adminName, adminEmail, randomPasswordHash, 1, today, time, companyId)
@@ -47,7 +58,7 @@ const CompanyController = {
         } catch (error) {
 
             console.error(error)
-            res.status(500).json({ message: `Erro ao cadastrar empresa: ${error}` });
+            res.status(500).json({ message: "Erro ao cadastrar empresa" });
 
         }
 
