@@ -2,12 +2,12 @@ import express from 'express'
 import CompanyController from '../controllers/CompanyController.js'
 import verifyJwtToken from '../middlewares/authJwt.js'
 
-const CompanyRoutes = express.Router()
+const companyRoutes = express.Router()
 
-CompanyRoutes.get('/', CompanyController.getAllCompanys)
-CompanyRoutes.get('/:id', CompanyController.getCompanyById)
-CompanyRoutes.post('/', CompanyController.createCompany)
-CompanyRoutes.put('/:id', CompanyController.updateCompany)
-CompanyRoutes.delete('/:id', CompanyController.deleteCompany)
+companyRoutes.get('/', CompanyController.getAllCompanys)
+companyRoutes.get('/:id', CompanyController.getCompanyById)
+companyRoutes.post('/', CompanyController.createCompany)
+companyRoutes.put('/:id', CompanyController.updateCompany)
+companyRoutes.delete('/:id', CompanyController.deleteCompany)
 
-export default CompanyRoutes;
+export default companyRoutes;

@@ -64,6 +64,15 @@ const AdminModel = {
 
         return rows
 
+    },
+    findByEmail: async (adminEmail) => {
+
+        let query = "SELECT * FROM admins WHERE email = ?"
+
+        const [rows] = await db.execute(query, [adminEmail])
+
+        return rows
+
     }
 
 }

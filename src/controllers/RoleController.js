@@ -11,17 +11,17 @@ const RoleController = {
 
             if (!name) {
 
-                res.status(400).json({ message: "Nome da função é um campo obrigatório" })
+                return res.status(400).json({ message: "Nome da função é um campo obrigatório" })
 
             }
 
             await RoleModel.create(name, companyId)
 
-            res.status(201).json({ message: "Função criada com sucesso" })
+            return res.status(201).json({ message: "Função criada com sucesso" })
 
         } catch (error) {
             
-            res.status(500).json({ message: "Erro ao criar função" })
+            return res.status(500).json({ message: "Erro ao criar função" })
 
         }
 
@@ -36,17 +36,17 @@ const RoleController = {
 
             if (!name) {
 
-                res.status(400).json({ message: "Nome da função é um campo obrigatório" })
+                return res.status(400).json({ message: "Nome da função é um campo obrigatório" })
 
             }
 
             await RoleModel.update(roleId, name, companyId)
 
-            res.status(200).json({ message: "Função alterada com successo" })
+            return res.status(200).json({ message: "Função alterada com successo" })
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao alterar função" })
+            return res.status(500).json({ message: "Erro ao alterar função" })
             
         }
 
@@ -64,15 +64,15 @@ const RoleController = {
 
             if (role.length === 0) {
 
-                res.status(200).json({ message: "Função não encontrada" })
+                return res.status(200).json({ message: "Função não encontrada" })
 
             }
 
-            res.status(200).json(role)
+            return res.status(200).json(role)
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao consultar função" })
+            return res.status(500).json({ message: "Erro ao consultar função" })
             
         }
 
@@ -93,12 +93,12 @@ const RoleController = {
 
             await RoleModel.delete(roleId, companyId)
 
-            res.status(200).json({ message: "Função deletada com sucesso" })
+            return res.status(200).json({ message: "Função deletada com sucesso" })
 
         } catch (error) {
             
             console.error(error)
-            res.status(500).json({ message: "Erro ao deletar função" })
+            return res.status(500).json({ message: "Erro ao deletar função" })
 
         }
 

@@ -53,12 +53,12 @@ const CompanyController = {
 
             await AdminModel.create(adminName, adminEmail, randomPasswordHash, 1, today, time, companyId)
 
-            res.status(201).json({ message: "Empresa cadastrada com sucesso" })
+            return res.status(201).json({ message: "Empresa cadastrada com sucesso" })
 
         } catch (error) {
 
             console.error(error)
-            res.status(500).json({ message: "Erro ao cadastrar empresa" });
+            return res.status(500).json({ message: "Erro ao cadastrar empresa" });
 
         }
 
@@ -88,11 +88,11 @@ const CompanyController = {
 
             const companyId = await CompanyModel.update(id, name, cnpj, phone, email, cep, address, district, city, number, state)
 
-            res.status(200).json({ message: "Informações salvas com sucesso" })
+            return res.status(200).json({ message: "Informações salvas com sucesso" })
 
         } catch (error) {
             
-            res.status(500).json({ message: "Erro ao salvar informações" })
+            return res.status(500).json({ message: "Erro ao salvar informações" })
 
         }
 
@@ -105,11 +105,11 @@ const CompanyController = {
 
             await CompanyModel.delete(companyId)
 
-            res.status(200).json({ message: "Empresa deletada com sucesso" })
+            return res.status(200).json({ message: "Empresa deletada com sucesso" })
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao deletar empresa" })
+            return res.status(500).json({ message: "Erro ao deletar empresa" })
             
         }
 
@@ -120,11 +120,11 @@ const CompanyController = {
             
             const companys = await CompanyModel.findAll()
 
-            res.status(200).json(companys)
+            return res.status(200).json(companys)
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao consultar empresas" })
+            return res.status(500).json({ message: "Erro ao consultar empresas" })
             
         }
 
@@ -137,11 +137,11 @@ const CompanyController = {
 
             const company = await CompanyModel.findById(id)
 
-            res.status(200).json(company)
+            return res.status(200).json(company)
 
         } catch (error) {
 
-            res.status(500).json({ message: "Erro ao buscar informações" })
+            return res.status(500).json({ message: "Erro ao buscar informações" })
             
         }
 
