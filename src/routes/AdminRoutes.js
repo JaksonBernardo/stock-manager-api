@@ -1,9 +1,10 @@
-import express from 'express'
+import express from 'express';
+import verifyJwtToken from '../middlewares/authJwt.js';
+import AdminController from '../controllers/AdminController.js';
 
-import AdminController from '../controllers/AdminController.js'
+const adminRoutes = express.Router();
 
-const adminRoutes = express.Router()
+adminRoutes.post('/login', AdminController.login);
+adminRoutes.get('/my-company', verifyJwtToken, AdminController.getMyCompany);
 
-adminRoutes.post('/login', AdminController.login)
-
-export default adminRoutes
+export default adminRoutes;

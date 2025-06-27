@@ -128,23 +128,6 @@ const CompanyController = {
             
         }
 
-    },
-    getCompanyById: async (req, res) => {
-
-        try {
-            
-            const id = req.params.id
-
-            const company = await CompanyModel.findById(id)
-
-            return res.status(200).json(company)
-
-        } catch (error) {
-
-            return res.status(500).json({ message: "Erro ao buscar informações" })
-            
-        }
-
     }
 
 }

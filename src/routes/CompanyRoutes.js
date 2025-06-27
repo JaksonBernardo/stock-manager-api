@@ -5,7 +5,6 @@ import verifyJwtToken from '../middlewares/authJwt.js'
 const companyRoutes = express.Router()
 
 companyRoutes.get('/', CompanyController.getAllCompanys)
-companyRoutes.get('/:id', CompanyController.getCompanyById)
 companyRoutes.post('/', CompanyController.createCompany)
 companyRoutes.put('/:id', CompanyController.updateCompany)
 companyRoutes.delete('/:id', CompanyController.deleteCompany)
