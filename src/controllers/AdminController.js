@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import AdminModel from '../models/AdminModel.js';
 import CompanyModel from "../models/CompanyModel.js";
+import RoleModel from '../models/RoleModel.js'
 
 import config from "../config/Config.js";
 
@@ -52,22 +53,24 @@ const AdminController = {
         }
 
     },
-    getMyCompany: async (req, res) => {
+    createRole: async (req, res) => {
 
         try {
             
             const companyId = req.user.companyId;
 
-            const company = await CompanyModel.findById(companyId);
+            const roleName = req.body.name;
 
-            return res.status(200).json(company);
+            const roleId = await RoleModel.create(roleName, companyId)
+
+            return res.status(201).json({ message: "Função criada com sucesso!" })
 
         } catch (error) {
 
-            console.error(error);
-            return res.status(500).json({ message: "Erro ao buscar informações" });
-            
-        };
+            console.error(error)
+
+            return res.status(500).json({ message: "Erro ao criar função" })
+        }
 
     }
 
