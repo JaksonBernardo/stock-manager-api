@@ -9,5 +9,6 @@ const adminRoutes = express.Router();
 
 adminRoutes.post('/login', AdminController.login);
 adminRoutes.post('/create-role', verifyJwtToken, authorizeRole(['admin']), AdminController.createRole)
+adminRoutes.post('/create-user', verifyJwtToken, authorizeRole(['admin']), AdminController.createUser)
 
 export default adminRoutes;

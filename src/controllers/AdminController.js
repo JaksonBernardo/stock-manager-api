@@ -4,8 +4,11 @@ import jwt from "jsonwebtoken";
 import AdminModel from '../models/AdminModel.js';
 import CompanyModel from "../models/CompanyModel.js";
 import RoleModel from '../models/RoleModel.js'
+import UserModel from '../models/UserModel.js'
 
 import config from "../config/Config.js";
+import generateRandomPassword from '../utils/generateRandomPassword.js'
+import sendEMail from "../utils/sendEmail.js";
 
 const AdminController = {
 
@@ -70,6 +73,43 @@ const AdminController = {
             console.error(error)
 
             return res.status(500).json({ message: "Erro ao criar função" })
+        }
+
+    },
+    createUser: async (req, res) => {
+
+        try {
+            
+            const { username, email, department, role } = req.body;
+            const companyId = req.user.companyId;
+
+            if (!email || !username || !department) {
+
+                return res.status(400).json({ message: "Email, nome de usuário e departamento são campos obrigatórios" });
+
+            }
+
+            const randomPassword = generateRandomPassword();
+
+            const randomPasswordHash = await bcrypt.hash(randomPassword, 10);
+
+            const userId = await UserModel.create(username, email, randomPasswordHash, department, parseInt(role), companyId);
+
+            const emailSent = await sendEMail(email, randomPassword);
+
+            if (!emailSent) {
+
+                return res.status(500).json({ message: "Erro de comunicação com o email o usuário" })
+
+            }
+
+            return res.status(201).json({ message: "Usuário cadastrado com sucesso" })
+
+        } catch (error) {
+
+            console.error(error)
+            return res.status(500).json({ message: "Erro ao cadastrar usuário" })
+            
         }
 
     }
