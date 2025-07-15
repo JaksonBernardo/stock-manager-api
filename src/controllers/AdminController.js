@@ -5,6 +5,7 @@ import AdminModel from '../models/AdminModel.js';
 import CompanyModel from "../models/CompanyModel.js";
 import RoleModel from '../models/RoleModel.js'
 import UserModel from '../models/UserModel.js'
+import RolePermissionModel from '../models/RolePermissionModel.js'
 
 import config from "../config/Config.js";
 import generateRandomPassword from '../utils/generateRandomPassword.js'
@@ -112,8 +113,25 @@ const AdminController = {
             
         }
 
-    }
+    },
+    relateRolePermission: async (req, res) => {
 
+        try {
+            
+            const { roleId, permissionId } = req.body
+
+            await RolePermissionModel.create(roleId, permissionId)
+
+            return res.status(201).json({ message: "Função e permissão relacionadas com sucesso" })
+
+        } catch (error) {
+
+            console.error(error)
+            return res.status(500).json({ message: "Erro ao relacionado função e permissão" })
+            
+        }
+
+    }
 
 }
 
