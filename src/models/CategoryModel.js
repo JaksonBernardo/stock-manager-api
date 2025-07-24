@@ -44,7 +44,7 @@ const CategoryModel = {
 
         const [rows] = await db.execute(query, [idCategory, companyId])
 
-        return rows[0]
+        return rows
 
     },
     findByName: async(companyId, name) => {

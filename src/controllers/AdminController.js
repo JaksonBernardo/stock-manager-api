@@ -127,7 +127,7 @@ const AdminController = {
         } catch (error) {
 
             console.error(error)
-            return res.status(500).json({ message: "Erro ao relacionado função e permissão" })
+            return res.status(500).json({ message: "Erro ao relacionar função e permissão" })
             
         }
 

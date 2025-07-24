@@ -4,7 +4,7 @@
   "description": "��#\u0000 \u0000I\u0000N\u0000I\u0000C\u0000I\u0000A\u0000N\u0000D\u0000O\u0000 \u0000O\u0000 \u0000A\u0000R\u0000Q\u0000U\u0000I\u0000V\u0000O\u0000 \u0000R\u0000E\u0000A\u0000D\u0000 \u0000D\u0000O\u0000 \u0000R\u0000E\u0000P\u0000O\u0000S\u0000I\u0000T\u0000�\u0000R\u0000I\u0000O\u0000 \u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000-\u0000\r\u0000 \u0000",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --passWithNoTests",
     "start": "node server.js"
   },
   "repository": {
@@ -29,5 +29,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "nodemailer": "^7.0.3"
+  },
+  "devDependencies": {
+    "jest": "^30.0.4"
   }
 }
