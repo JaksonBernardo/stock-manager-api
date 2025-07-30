@@ -44,7 +44,7 @@ const SupplierModel = {
 
         const [rows] = await db.execute(query, [companyId, supplierId])
 
-        return rows[0]
+        return rows
 
     },
     findByName: async (companyId, name) => {
