@@ -1,5 +1,6 @@
 
 import CategoryModel from '../models/CategoryModel.js'
+import ProductModel from '../models/ProductModel.js';
 
 
 const ProductController = {
@@ -102,6 +103,36 @@ const ProductController = {
             console.error(error);
             return res.status(500).json({ message: "Erro ao deletar categoria" });
 
+        }
+
+    },
+    createProduct: async (req, res) => {
+
+        try {
+            
+            const { nameProduct, description, price, stock, 
+                supplier, validity, category } = req.body;
+
+            const companyId = req.user.companyId;
+
+            const requiredFields = [nameProduct, price, stock, supplier, category]
+
+            if (requiredFields.some(field => !field)) {
+
+                return res.status(400).json({ message: "Campos obrigatórios faltando" })
+
+            }
+
+            const idNewProduct = await ProductModel.create(nameProduct, description, price, stock, supplier, validity, category, companyId);
+
+            return res.status(201).json({ message: 'Produto criado com sucesso' });
+
+
+        } catch (error) {
+
+            console.error(error);
+            return res.status(500).json({ message: 'Erro ao criar produto' });
+            
         }
 
     }
