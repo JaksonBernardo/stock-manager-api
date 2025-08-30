@@ -9,5 +9,7 @@ const supplierRoutes = express.Router();
 
 supplierRoutes.post('/create', verifyJwtToken, SupplierController.create);
 supplierRoutes.put('/update/:id', verifyJwtToken, SupplierController.update);
+supplierRoutes.delete('/delete/:id', verifyJwtToken, SupplierController.delete);
+supplierRoutes.get('/search', verifyJwtToken, SupplierController.findByName)
 
 export default supplierRoutes;

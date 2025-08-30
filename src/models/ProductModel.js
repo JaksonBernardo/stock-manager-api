@@ -44,7 +44,16 @@ const ProductModel = {
 
         const [rows] = await db.execute(query, [productId, companyId])
 
-        return rows[0]
+        return rows
+
+    },
+    findBySupplier: async (companyId, supplierId) => {
+
+        let query = "SELECT * FROM products WHERE supplier = ? AND company_id = ?"
+
+        const [rows] = await db.execute(query, [supplierId, companyId])
+
+        return rows
 
     }
 
