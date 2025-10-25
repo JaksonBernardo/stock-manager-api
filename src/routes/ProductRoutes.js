@@ -13,6 +13,6 @@ productRoutes.post('/create-category', verifyJwtToken, ProductController.createC
 productRoutes.put('/update-category/:id', verifyJwtToken, ProductController.updateCategory);
 productRoutes.delete('/delete-category/:id', verifyJwtToken, ProductController.deleteCategory);
 productRoutes.post('/create-product', verifyJwtToken, ProductController.createProduct);
-
+productRoutes.put('/update-product/:id', verifyJwtToken, ProductController.updateProduct);
 
 export default productRoutes;
