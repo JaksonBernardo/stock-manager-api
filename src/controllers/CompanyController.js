@@ -2,7 +2,7 @@ import CompanyModel from '../models/CompanyModel.js'
 import AdminModel from '../models/AdminModel.js'
 
 import bcrypt from 'bcryptjs'
-import { format } from 'date-fns'
+
 
 import generateRandomPassword from '../utils/generateRandomPassword.js'
 import sendEmail from '../utils/sendEmail.js'
@@ -16,10 +16,10 @@ const CompanyController = {
             const {
                 name, cnpj, phone, email,
                 cep, address, district,city,
-                number, state, adminName, adminEmail
+                number, state
             } = req.body
 
-            const requiredFields = [name, cnpj, email, adminName, adminEmail]
+            const requiredFields = [name, cnpj, email]
 
             if (requiredFields.some(field => !field)) {
 
@@ -31,27 +31,19 @@ const CompanyController = {
 
             const randomPassword = generateRandomPassword()
 
-            const today = format(new Date(), 'yyyy-MM-dd')
+            
 
-            const time = new Intl.DateTimeFormat('pt-BR', {
-                timeZone: 'America/Sao_Paulo',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            }).format()
+            // const emailSent = await sendEmail(adminEmail, randomPassword)
 
-            const emailSent = await sendEmail(adminEmail, randomPassword)
+            // if (!emailSent) {
 
-            if (!emailSent) {
+            //     return res.status(500).json({ message: "Erro ao enviar e-mail para o administrador" })
 
-                return res.status(500).json({ message: "Erro ao enviar e-mail para o administrador" })
+            // }
 
-            }
+            // const randomPasswordHash = await bcrypt.hash(randomPassword, 10)
 
-            const randomPasswordHash = await bcrypt.hash(randomPassword, 10)
-
-            await AdminModel.create(adminName, adminEmail, randomPasswordHash, 1, today, time, companyId)
+            // await AdminModel.create(adminName, adminEmail, randomPasswordHash, 1, today, time, companyId)
 
             return res.status(201).json({ message: "Empresa cadastrada com sucesso" })
 

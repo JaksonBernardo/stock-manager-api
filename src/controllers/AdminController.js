@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { format } from 'date-fns'
 
 import AdminModel from '../models/AdminModel.js';
 import CompanyModel from "../models/CompanyModel.js";
@@ -35,6 +36,8 @@ const AdminController = {
 
             };
 
+            const company = await CompanyModel.findByAdminId(adminUser[0].id);
+
             const passwordHash = adminUser[0].password;
 
             const passwordIsValid = await bcrypt.compare(password, passwordHash);
@@ -45,7 +48,7 @@ const AdminController = {
 
             };
 
-            const jwtToken = jwt.sign({ id: adminUser[0].id, role: 'admin', companyId: adminUser[0].company_id }, config.jwt.secret, { expiresIn: '1d' });
+            const jwtToken = jwt.sign({ id: adminUser[0].id, name: adminUser[0].name, role: 'admin', companyId: company[0].id }, config.jwt.secret, { expiresIn: '1d' });
 
             return res.status(200).json({ message: "Login realizado com sucesso", token: jwtToken });
 
@@ -129,6 +132,44 @@ const AdminController = {
             console.error(error)
             return res.status(500).json({ message: "Erro ao relacionar função e permissão" })
             
+        }
+
+    },
+    createAdmin : async (req, res) => {
+
+        try {
+            
+            const { username, email, password } = req.body;
+
+            const requiredFields = [email, password];
+
+            if (requiredFields.some(field => !field)) {
+
+                return res.status(400).json({ message: "Campos obrigatórios faltando" })
+
+            }
+
+            const today = format(new Date(), 'yyyy-MM-dd')
+
+            const time = new Intl.DateTimeFormat('pt-BR', {
+                timeZone: 'America/Sao_Paulo',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).format()
+
+            const passwordHash = await bcrypt.hash(password, 10);
+
+            await AdminModel.create(username, email, passwordHash, 1, today, time);
+
+            return res.status(201).json({ message: "Admin criado com sucesso" })
+
+        } catch (error) {
+            
+            console.error(error);
+            return res.status(500).json({ message: "Erro ao criar administrador" });
+
         }
 
     }

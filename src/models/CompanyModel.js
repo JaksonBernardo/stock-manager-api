@@ -46,6 +46,15 @@ const CompanyModel = {
 
         return rows
 
+    },
+    findByAdminId: async (adminId) => {
+
+        let query = "SELECT * FROM companys WHERE admin_id = ? LIMIT 1"
+
+        const [rows] = await db.execute(query, [adminId])
+
+        return rows
+
     }
 }
 

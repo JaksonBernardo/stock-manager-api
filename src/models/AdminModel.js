@@ -2,47 +2,47 @@ import db from '../db/Connection.js'
 
 const AdminModel = {
 
-    create: async (name, email, password, firstLogin, createdDate, createdTime, companyId) => {
+    create: async (name, email, password, firstLogin, createdDate, createdTime) => {
 
-        let query = "INSERT INTO admins (name, email, password, first_login, created_date, created_time, company_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        let query = "INSERT INTO admins (name, email, password, first_login, created_date, created_time) VALUES (?, ?, ?, ?, ?, ?)"
 
-        const [result] = await db.execute(query, [name, email, password, firstLogin, createdDate, createdTime, companyId])
+        const [result] = await db.execute(query, [name, email, password, firstLogin, createdDate, createdTime])
 
         return result.insertId
 
     },
-    update: async (adminId, name, email, newPassword, companyId) => {
+    update: async (adminId, name, email, newPassword) => {
 
-        let query = "UPDATE admins SET name = ?, email = ?, password = ? WHERE id = ? AND company_id = ?"
+        let query = "UPDATE admins SET name = ?, email = ?, password = ? WHERE id = ?"
 
-        const [result] = await db.execute(query, [name, email, newPassword, adminId, companyId])
-
-        return result.affectedRows
-
-    },
-    updatePassword: async (adminId, newPassword, companyId) => {
-
-        let query = "UPDATE admins SET password = ? WHERE id = ? AND company_id = ?"
-
-        const [result] = await db.execute(query, [newPassword, adminId, companyId])
+        const [result] = await db.execute(query, [name, email, newPassword, adminId])
 
         return result.affectedRows
 
     },
-    updateFirstLogin: async (adminId, companyId) => {
+    updatePassword: async (adminId, newPassword) => {
 
-        let query = "UPDATE admins SET first_login = 0 WHERE id = ? AND company_id = ?"
+        let query = "UPDATE admins SET password = ? WHERE id = ?"
 
-        const [result] = await db.execute(query, [adminId, companyId])
+        const [result] = await db.execute(query, [newPassword, adminId])
 
         return result.affectedRows
 
     },
-    delete: async (adminId, companyId) => {
+    updateFirstLogin: async (adminId) => {
 
-        let query = "DELETE FROM admins WHERE id = ? AND company_id = ?"
+        let query = "UPDATE admins SET first_login = 0 WHERE id = ?"
 
-        const [result] = await db.execute(query, [adminId, companyId])
+        const [result] = await db.execute(query, [adminId])
+
+        return result.affectedRows
+
+    },
+    delete: async (adminId) => {
+
+        let query = "DELETE FROM admins WHERE id = ?"
+
+        const [result] = await db.execute(query, [adminId])
 
         return result.affectedRows
 
