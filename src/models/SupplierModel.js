@@ -1,21 +1,32 @@
+import { create } from 'domain'
 import db from '../db/Connection.js'
 
 const SupplierModel = {
 
-    create: async (name, cnpj, email, phone, address, city, state, companyId) => {
+    create: async (parameters) => {
 
-        let query = "INSERT INTO suppliers (name, cnpj, email, phone, address, city, state, company_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        /**
+        * Insere um novo fornecedor
+        * @param {Array} parameters - Uma lista com os parêmetros na ordem (name, cnpj, email, phone, whatsapp, cep, address, number, city, state, company_id) 
+        */
 
-        const [result] = await db.execute(query, [name, cnpj, email, phone, address, city, state, companyId])
+        let query = "INSERT INTO suppliers (name, cnpj, email, phone, whatsapp, cep, address, number, city, state, company_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+        const [result] = await db.execute(query, parameters)
 
         return result.insertId
 
     },
-    update: async (supplierId, name, cnpj, email, phone, address, city, state, companyId) => {
+    update: async (parameters) => {
 
-        let query = "UPDATE suppliers SET name = ?, cnpj = ?, email = ?, phone = ?, address = ?, city = ?, state = ? WHERE id = ? AND company_id = ?"
+        /**
+        * Edita um fornecedor existente
+        * @param {Array} parameters - Uma lista com os parêmetros na ordem (name, cnpj, email, phone, whatsapp, cep, address, number, city, state, company_id) 
+        */
 
-        const [result] = await db.execute(query, [name, cnpj, email, phone, address, city, state, supplierId, companyId])
+        let query = "UPDATE suppliers SET name = ?, cnpj = ?, email = ?, phone = ?, whatsapp = ?, cep = ?, address = ?, number = ?, city = ?, state = ? WHERE id = ? AND company_id = ?"
+
+        const [result] = await db.execute(query, parameters)
 
         return result.affectedRows
 
