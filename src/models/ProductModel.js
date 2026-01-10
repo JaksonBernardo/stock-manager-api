@@ -2,20 +2,20 @@ import db from '../db/Connection.js'
 
 const ProductModel = {
 
-    create: async (name, description, price, stock, supplier, validity, category, companyId) => {
+    create: async (name, description, price, stock, supplier, validity, category, photo, companyId) => {
 
-        let query = "INSERT INTO products (name, description, price, stock, supplier, validity, category, company_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        let query = "INSERT INTO products (name, description, price, stock, supplier, validity, category, photo, company_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-        const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, companyId])
+        const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, photo, companyId])
 
         return result.insertId
 
     },
-    update: async (productId, name, description, price, stock, supplier, validity, category, companyId) => {
+    update: async (productId, name, description, price, stock, supplier, validity, category, photo, companyId) => {
 
-        let query = "UPDATE products SET name = ?, description = ?, price = ?, stock = ?, supplier = ?, validity = ?, category = ? WHERE id = ? AND company_id = ?"
+        let query = "UPDATE products SET name = ?, description = ?, price = ?, stock = ?, supplier = ?, validity = ?, category = ?, photo = ? WHERE id = ? AND company_id = ?"
 
-        const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, productId, companyId])
+        const [result] = await db.execute(query, [name, description, price, stock, supplier, validity, category, photo, productId, companyId])
 
         return result.affectedRows
 
@@ -27,6 +27,15 @@ const ProductModel = {
         const [result] = await db.execute(query, [productId, companyId])
 
         return result.affectedRows
+
+    },
+    findToShowPage: async (companyId) => {
+
+        let query = "SELECT id, name, price, photo FROM products WHERE company_id = ?"
+
+        const [rows] = await db.execute(query, [companyId])
+
+        return rows
 
     },
     findAll: async (companyId) => {

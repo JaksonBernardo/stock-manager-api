@@ -109,12 +109,82 @@ const ProductController = {
     createProduct: async (req, res) => {
 
         try {
+            const {
+                nameProduct,
+                description,
+                price,
+                stock,
+                supplier,
+                validity,
+                category
+            } = req.body;
 
-            const { nameProduct, description, price, stock, 
-                    supplier, validity, category } = req.body;
+            const photo = req.file?.filename;
             const companyId = req.user.companyId;
 
-            const requiredFields = [nameProduct, price, stock, supplier, category];
+            const parsedPrice = parseFloat(price);
+            const parsedStock = parseInt(stock);
+            const parsedSupplier = parseInt(supplier);
+            const parsedCategory = parseInt(category);
+            const parsedValidity = (validity && validity !== "null") ? validity : null;
+
+            const requiredFields = [
+                nameProduct,
+                parsedPrice,
+                parsedStock,
+                parsedSupplier,
+                parsedCategory
+            ];
+
+            if (requiredFields.some(field => field === undefined || field === null || field === "" || Number.isNaN(field))) {
+                return res.status(400).json({ message: "Campos obrigatórios faltando" });
+            }
+
+            if (typeof nameProduct !== "string") {
+                return res.status(400).json({ message: "Nome inválido" });
+            }
+
+            if (parsedPrice <= 0) {
+                return res.status(400).json({ message: "Preço inválido" });
+            }
+
+            if (!Number.isInteger(parsedStock) || parsedStock < 0) {
+                return res.status(400).json({ message: "Estoque inválido" });
+            }
+
+            const idNewProduct = await ProductModel.create(
+                nameProduct,
+                description,
+                parsedPrice,
+                parsedStock,
+                parsedSupplier,
+                parsedValidity[0],
+                parsedCategory,
+                photo,
+                companyId
+            );
+
+            return res.status(201).json({ message: "Produto criado com sucesso" });
+
+        } catch (error) {
+
+            console.error(error);
+            return res.status(500).json({ message: "Erro ao criar produto" });
+
+        }
+
+    },
+    updateProduct: async (req, res) => {
+
+        try {
+
+            const { nameProduct, description, price, stock,
+                supplier, validity, category, photo } = req.body;
+
+            const productId = req.params.id;
+            const companyId = req.user.companyId;
+
+            const requiredFields = [nameProduct, price, stock, supplier, category]
 
             if (requiredFields.some(field => field === undefined || field === null || field === "")) {
                 return res.status(400).json({ message: "Campos obrigatórios faltando" });
@@ -140,22 +210,9 @@ const ProductController = {
                 return res.status(400).json({ message: "O campo categoria deve ser um id válido" });
             }
 
-            if (validity && typeof validity !== "string") {
-                return res.status(400).json({ message: "A validade deve ser uma data" });
-            }
+            const idNewProduct = await ProductModel.update(productId, nameProduct, description, price, stock, supplier, validity, category, photo, companyId);
 
-            const idNewProduct = await ProductModel.create(
-                nameProduct,
-                description,
-                price,
-                stock,
-                supplier,
-                validity,
-                category,
-                companyId
-            );
-
-            return res.status(201).json({ message: 'Produto criado com sucesso' });
+            return res.status(200).json({ message: 'Produto atualizado com sucesso' });
 
         } catch (error) {
 
@@ -165,33 +222,20 @@ const ProductController = {
         }
 
     },
-    updateProduct: async (req, res) => {
+    findAllProducts: async (req, res) => {
 
         try {
-
-            const { nameProduct, description, price, stock,
-                supplier, validity, category } = req.body;
-
-            const productId = req.params.id;
+            
             const companyId = req.user.companyId;
 
-            const requiredFields = [nameProduct, price, stock, supplier, category]
+            const allProducts = await ProductModel.findToShowPage(companyId);
 
-            if (requiredFields.some(field => !field)) {
-
-                return res.status(400).json({ message: "Campos obrigatórios faltando" })
-
-            }
-
-            const idNewProduct = await ProductModel.update(productId, nameProduct, description, price, stock, supplier, validity, category, companyId);
-
-            return res.status(200).json({ message: 'Produto atualizado com sucesso' });
+            return res.status(200).json(allProducts);
 
         } catch (error) {
-
+            
             console.error(error);
-            return res.status(500).json({ message: 'Erro ao criar produto' });
-
+            return res.status(500).json({ message: "Erro ao buscar os produtos" })
         }
 
     }
