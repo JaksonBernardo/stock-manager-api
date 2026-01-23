@@ -119,7 +119,7 @@ const ProductController = {
                 category
             } = req.body;
 
-            const photo = req.file?.filename;
+            const photo = req.file?.filename ?? null;
             const companyId = req.user.companyId;
 
             const parsedPrice = parseFloat(price);
